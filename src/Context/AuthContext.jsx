@@ -1,0 +1,30 @@
+import { createContext, useEffect, useState } from "react";
+
+export const AuthContext = createContext();
+
+//AuthProvider is used to create data like user, login , logout
+// AuthProvider also wrap main.jsx for providing data to all child component
+// data is passed through AuthContext.Provider
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("userInfo");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem("userInfo", JSON.stringify(userData));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("userInfo");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
