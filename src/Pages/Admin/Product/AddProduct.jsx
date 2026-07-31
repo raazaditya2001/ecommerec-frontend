@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [productForm, setProductForm] = useState({
     name: "",
     description: "",
@@ -61,6 +63,7 @@ const AddProduct = () => {
 
       if (res.data.success) {
         alert("Successfully Product Added");
+        navigate("/admin/products")
         console.log(res.data);
       }
     } catch (error) {
