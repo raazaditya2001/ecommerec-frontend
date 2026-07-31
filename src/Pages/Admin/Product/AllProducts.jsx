@@ -56,12 +56,21 @@ const AllProducts = () => {
           <p className="text-zinc-400 mt-1">Manage all products</p>
         </div>
 
-        <Link
-          to="/admin/product-add"
-          className="bg-orange-500 hover:bg-orange-600 px-5 py-2 rounded-lg text-white font-medium"
-        >
-          Add Product
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/admin/dashboard"
+            className="px-5 py-2 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-white font-medium transition"
+          >
+            Back
+          </Link>
+
+          <Link
+            to="/admin/product-add"
+            className="px-5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium transition"
+          >
+            + Add Product
+          </Link>
+        </div>
       </div>
 
       {/* Desktop Table */}

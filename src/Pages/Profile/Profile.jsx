@@ -19,10 +19,9 @@ const Profile = () => {
         },
       });
 
-      console.log(res.data.orders);
-
       if (res.data.success) {
         setOrders(res.data.orders);
+        console.log(res.data);
       }
     } catch (error) {
       alert("Something wrong");
@@ -34,14 +33,12 @@ const Profile = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
 
     fetchOrders();
-    console.log(orders);
-  }, [user,navigate]);
-
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white py-10 px-4">
@@ -82,7 +79,7 @@ const Profile = () => {
             </p>
           </div>
         ) : (
-          orders.map((order) => (
+          orders?.map((order) => (
             <div
               key={order._id}
               className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 mb-8"
@@ -127,38 +124,57 @@ const Profile = () => {
               <div className="space-y-5">
                 {order.items.map((item) => (
                   <div
-                    key={item.product._id}
-                    className="flex items-center gap-5"
+                    key={item._id}
+                    className="flex items-center gap-5 border border-zinc-800 rounded-xl p-4"
                   >
-                    <img
-                      src={item.product.imageUrl}
-                      alt={item.product.name}
-                      className="w-24 h-24 object-contain bg-white rounded-xl p-2"
-                    />
+                    {item.product ? (
+                      <>
+                        <img
+                          src={item.product.imageUrl}
+                          alt={item.product.name}
+                          className="w-24 h-24 object-contain bg-white rounded-xl p-2"
+                        />
 
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold">
-                        {item.product.name}
-                      </h3>
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold">
+                            {item.product.name}
+                          </h3>
 
-                      <p className="text-gray-400">
-                        {item.product.description}
-                      </p>
+                          <p className="text-gray-400">
+                            {item.product.description ||
+                              "No description available"}
+                          </p>
 
-                      <div className="flex gap-6 mt-2">
-                        <span>
-                          Price:
-                          <span className="text-orange-500 ml-2">
-                            ₹{item.product.price.toLocaleString("en-IN")}
-                          </span>
-                        </span>
+                          <div className="flex gap-6 mt-2">
+                            <span>
+                              Price:
+                              <span className="text-orange-500 ml-2">
+                                ₹{item.product.price.toLocaleString("en-IN")}
+                              </span>
+                            </span>
 
-                        <span>
-                          Qty:
-                          <span className="ml-2">{item.quantity}</span>
-                        </span>
+                            <span>
+                              Qty:
+                              <span className="ml-2">{item.quantity}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="w-full">
+                        <h3 className="text-red-500 font-semibold">
+                          Product Removed
+                        </h3>
+
+                        <p className="text-gray-400">
+                          This product is no longer available.
+                        </p>
+
+                        <p className="mt-2">
+                          Quantity: <span>{item.quantity}</span>
+                        </p>
                       </div>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>

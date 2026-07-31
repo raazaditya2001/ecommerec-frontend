@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -67,7 +67,16 @@ const Orders = () => {
   return (
     <div className="min-h-screen bg-zinc-950 text-white py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Manage Orders</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Manage Orders</h1>
+
+          <Link
+            to="/admin/dashboard"
+            className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white px-5 py-2.5 rounded-lg border border-zinc-700 transition-all duration-200"
+          >
+            ← Back to Dashboard
+          </Link>
+        </div>
 
         {orders.length === 0 ? (
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center">

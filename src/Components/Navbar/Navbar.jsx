@@ -74,7 +74,7 @@ const Navbar = () => {
           {user.role === "admin" && (
             <li>
               <Link
-                to="/admin"
+                to="/admin/dashboard"
                 className="hover:text-orange-500"
               >
                 Admin

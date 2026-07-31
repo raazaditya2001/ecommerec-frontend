@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -63,7 +63,7 @@ const AddProduct = () => {
 
       if (res.data.success) {
         alert("Successfully Product Added");
-        navigate("/admin/products")
+        navigate("/admin/products");
         console.log(res.data);
       }
     } catch (error) {
@@ -172,13 +172,21 @@ const AddProduct = () => {
             />
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-300"
-          >
-            Add Product
-          </button>
+          <div className="flex gap-4 mt-6">
+            <button
+              type="submit"
+              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-300"
+            >
+              Add Product
+            </button>
+
+            <Link
+              to="/admin/dashboard"
+              className="flex-1 flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+            >
+              ← Back
+            </Link>
+          </div>
         </form>
       </div>
     </div>
