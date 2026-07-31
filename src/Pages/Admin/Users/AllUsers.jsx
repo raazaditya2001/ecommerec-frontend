@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import notify from "../../../utils/toast";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -29,7 +30,7 @@ const AllUsers = () => {
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to fetch users");
+      notify.error("Failed to fetch users");
     }
   };
 

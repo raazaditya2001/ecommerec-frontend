@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import notify from "../../../utils/toast";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -27,7 +28,7 @@ const Orders = () => {
         setOrders(res.data.orders);
       }
     } catch (error) {
-      alert("Something went wrong");
+      notify.error("Something went wrong");
       console.log(error.message);
     }
   };
@@ -55,11 +56,11 @@ const Orders = () => {
       );
 
       if (res.data.success) {
-        alert("Status Successfully Updated !");
+        notify.success("Status Successfully Updated !");
         fetchOrders();
       }
     } catch (error) {
-      alert("something went wrong");
+      notify.error("something went wrong");
       console.log(error.message);
     }
   };

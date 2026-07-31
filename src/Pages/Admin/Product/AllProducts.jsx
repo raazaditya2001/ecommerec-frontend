@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthContext";
+import notify from "../../../utils/toast";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ const AllProducts = () => {
         console.log(res.data.products);
       }
     } catch (error) {
-      alert("Something Went Wrong");
+      notify.error("Something Went Wrong");
       console.log(error.message);
     }
   };
@@ -34,11 +35,11 @@ const AllProducts = () => {
       });
 
       if (res.data.success) {
-        alert("Product Successfully Deleted");
+        notify.success("Product Successfully Deleted");
         setProducts((prev) => prev.filter((product) => product._id !== id));
       }
     } catch (error) {
-      alert("Something went wrong!");
+      notify.error("Something went wrong!");
       console.log(error.message);
     }
   };

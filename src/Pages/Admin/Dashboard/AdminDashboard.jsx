@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import notify from "../../../utils/toast";
 
 const AdminDashboard = () => {
   const [dashboardStats, setDashboardStats] = useState([]);
@@ -26,7 +27,7 @@ const AdminDashboard = () => {
         setOrderStats(res.data.orderStats);
       }
     } catch (error) {
-      alert("something went wrong");
+      notify.error("Something went wrong!");
       console.log(error.message);
     }
   };

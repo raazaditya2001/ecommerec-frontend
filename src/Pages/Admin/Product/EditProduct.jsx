@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import notify from "../../../utils/toast";
 
 const EditProduct = () => {
   const { user } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const EditProduct = () => {
         setProductForm(res.data.product);
       }
     } catch (error) {
-      alert("Something went wrong");
+      notify.error("Something went wrong");
       console.log(error.message);
     }
   };
@@ -75,11 +76,11 @@ const EditProduct = () => {
       );
 
       if (res.data.success) {
-        alert("Successfully Product Updated");
+        notify.success("Successfully Product Updated");
         navigate("/admin/products");
       }
     } catch (error) {
-      alert("Something went wrong");
+      notify.error("Something went wrong");
       console.log(error.message);
     }
   };

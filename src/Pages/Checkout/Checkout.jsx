@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { clearCart } from "../../redux/slices/cartSlice";
+import notify from "../../utils/toast";
 
 const Checkout = () => {
   const { user } = useContext(AuthContext);
@@ -81,6 +82,7 @@ const Checkout = () => {
 
           if (verifyRes.data.success) {
             try {
+              notify.success("Payment Successfully Done!")
               const saveOrderRes = await axios.post(
                 "/api/orders",
                 {
@@ -106,10 +108,10 @@ const Checkout = () => {
                 navigate("/ordersuccess");
               }
             } catch (error) {
-              alert("Order saving failed", error);
+              notify.error("Order saving failed", error);
             }
           } else {
-            alert("Payment verification failed");
+            notify.error("Payment verification failed");
           }
         },
         prefill: {
@@ -123,7 +125,7 @@ const Checkout = () => {
       };
 
       if (!window.Razorpay) {
-        alert("Razorpay SDK failed to load.");
+        notify.error("Razorpay SDK failed to load.");
         return;
       }
 
@@ -154,13 +156,14 @@ const Checkout = () => {
     console.log(saveOrderRes);
     if (saveOrderRes.data.success) {
       dispatch(clearCart());
+      notify.success("Order Placed Successfully");
       navigate("/ordersuccess");
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user) {
-      alert("Please login first");
+      notify.error("Please login first");
       navigate("/login");
       return;
     }

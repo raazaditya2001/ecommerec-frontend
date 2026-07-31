@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import notify from "../../utils/toast";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -24,7 +25,7 @@ const Profile = () => {
         console.log(res.data);
       }
     } catch (error) {
-      alert("Something wrong");
+      notify.error("Something wrong");
       console.log(error);
     } finally {
       setLoading(false);

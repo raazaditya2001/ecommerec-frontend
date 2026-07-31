@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice"; // Update the path
+import notify from "../../utils/toast";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const ProductDetails = () => {
       console.log(res.data.product);
     } catch (error) {
       console.error(error);
-      alert("Something Went Wrong");
+      notify.error("Something Went Wrong");
     } finally {
       setLoading(false);
     }
@@ -34,7 +35,7 @@ const ProductDetails = () => {
 
     const exists = cartItems.some((item) => item.productId === product._id);
     if (exists) {
-      alert("This product is already added");
+      notify.alert("This product is already added");
       return;
     }
 
@@ -48,7 +49,7 @@ const ProductDetails = () => {
       }),
     );
 
-    alert("Successfully added to your cart!");
+    notify.success("Successfully added to your cart!");
   };
 
   if (loading) {

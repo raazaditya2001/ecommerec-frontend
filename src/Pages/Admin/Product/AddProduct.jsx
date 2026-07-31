@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import notify from "../../../utils/toast";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -62,12 +63,12 @@ const AddProduct = () => {
       );
 
       if (res.data.success) {
-        alert("Successfully Product Added");
+        notify.success("Successfully Product Added");
         navigate("/admin/products");
         console.log(res.data);
       }
     } catch (error) {
-      alert("Something went wrong");
+      notify.error("Something went wrong");
       console.log(error.message);
     }
   };

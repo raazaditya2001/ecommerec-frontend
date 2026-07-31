@@ -21,10 +21,12 @@ import EditProduct from "./Pages/Admin/Product/EditProduct";
 import AllUsers from "./Pages/Admin/Users/AllUsers";
 import UserProtectedRoutes from "./routes/UserProtectedRoutes";
 import AdminProtectedRoutes from "./routes/AdminProtectedRoutes";
+import ToastProvider from "./Components/Toast/ToastProvider";
 
 function App() {
   return (
     <Router>
+      <ToastProvider/>
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public Routes */}

@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
+import notify from "../../utils/toast";
 
 const Register = () => {
 
@@ -36,7 +37,7 @@ const Register = () => {
     });
 
     if (res.status === 201) {
-      alert("Form Submitted Successfully");
+      notify.success("Form Submitted Successfully");
 
       setForm({
         name: "",
@@ -51,7 +52,7 @@ const Register = () => {
     }
   } catch (error) {
  
-      alert("Server is not responding. Please try again later.");
+      notify.error("Server is not responding. Please try again later.");
       console.log(error.message);
   }
 };

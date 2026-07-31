@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { Link, useLocation, useNavigate, useNavigation } from "react-router-dom";
+import notify from "../../utils/toast";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -33,7 +34,7 @@ export default function Login() {
       });
 
       if (res.status === 200) {
-        alert("Login Successfully");
+        notify.success("Login Successfully");
         login(res.data);
         navigate("/");
         console.log(res.data);
@@ -42,9 +43,9 @@ export default function Login() {
       }
     } catch (error) {
       if (error.response) {
-        alert(error.response.data.message);
+        notify.error(error.response.data.message);
       } else {
-        alert("Something went wrong");
+        notify.error("Something went wrong");
       }
 
       console.log(error);

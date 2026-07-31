@@ -3,6 +3,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../../assets/logo.png"
 import { useSelector} from "react-redux";
+import notify from '../../utils/toast';
 
 
 const Navbar = () => {
@@ -15,6 +16,7 @@ const Navbar = () => {
 
   const handleLogout = () =>{
       logout();
+      notify.success("Logout Successfully");
       navigate("/");
   }
   return (
