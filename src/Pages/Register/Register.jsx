@@ -1,164 +1,144 @@
-import { useState, useContext } from "react";
-import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import notify from "../../utils/toast";
+// validation imports
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registrationSchema } from "../../validations/auth.schema";
 
 const Register = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const {login} = useContext(AuthContext);
-    const navigate = useNavigate();
+  //initiate form
 
-    const [form , setForm] = useState({
-        name : "",
-        email : "",
-        password : "",
-    })
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(registrationSchema),
 
-    const handleChange = (e) =>{
-        const {name , value} = e.target;
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
 
-        setForm((prev) => (
-            {
-                ...prev,
-                [name] : value,
-            }
-        ))
-    }
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("/api/auth/register", data);
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+      if (res.status === 201) {
+        notify.success("Form Submitted Successfully");
 
-  try {
-    const res = await axios.post("/api/auth/register", {
-        name:form.name,
-        email: form.email,
-        password : form.password,
-    });
+        reset();
 
-    if (res.status === 201) {
-      notify.success("Form Submitted Successfully");
+        login(res.data);
 
-      setForm({
-        name: "",
-        email: "",
-        password: "",
-        
-      });
-
-    login(res.data);
-      
-      navigate("/");
-    }
-  } catch (error) {
- 
+        navigate("/");
+      }
+    } catch (error) {
       notify.error("Server is not responding. Please try again later.");
       console.log(error.message);
-  }
-};
-  
+    }
+  };
+
   return (
-  <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
-    <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl p-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white">Create Account</h1>
 
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-white">
-          Create Account
-        </h1>
-
-        <p className="text-gray-400 mt-2">
-          Join NexCart and start shopping today.
-        </p>
-      </div>
-
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-5">
-
-        {/* Name */}
-        <div>
-          <label className="block text-gray-300 mb-2">
-            Full Name
-          </label>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your full name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
-            text-white placeholder-gray-500
-            focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
+          <p className="text-gray-400 mt-2">
+            Join NexCart and start shopping today.
+          </p>
         </div>
 
-        {/* Email */}
-        <div>
-          <label className="block text-gray-300 mb-2">
-            Email Address
-          </label>
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Name */}
+          <div>
+            <label className="block text-gray-300 mb-2">Full Name</label>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
+            <input
+              type="text"
+              placeholder="Enter your full name"
+              {...register("name")}                 //form vaildation method
+              required
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
             text-white placeholder-gray-500
             focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
-        </div>
+            />
+          </div>
+          {errors.name && (
+            <p className='text-red-500 text-sm mt-1'>{errors.name.message}</p>
+          )}
 
-        {/* Password */}
-        <div>
-          <label className="block text-gray-300 mb-2">
-            Password
-          </label>
+          {/* Email */}
+          <div>
+            <label className="block text-gray-300 mb-2">Email Address</label>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Create a password"
-            value={form.password}
-            onChange={handleChange}
-            required
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
+            <input
+              type="email"
+              placeholder="Enter your email"
+              {...register("email")}                  //form vaildation method
+              required
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
             text-white placeholder-gray-500
             focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
-        </div>
+            />
+          </div>
+          {errors.email && (
+            <p className="text-res-500 text-sm mt-1">{errors.email.message}</p>
+          )}
 
-        {/* Register Button */}
-        <button
-          type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600
+          {/* Password */}
+          <div>
+            <label className="block text-gray-300 mb-2">Password</label>
+
+            <input
+              type="password"
+              placeholder="Create a password"
+              {...register("password")}
+              required
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3
+            text-white placeholder-gray-500
+            focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+          )}
+
+          {/* Register Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-orange-500 hover:bg-orange-600
           text-white font-semibold py-3 rounded-lg transition duration-300"
-        >
-          Create Account
-        </button>
-
-      </form>
-
-      {/* Login Link */}
-      <div className="text-center mt-6">
-        <p className="text-gray-400">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-orange-500 hover:underline"
           >
-            Login
-          </Link>
-        </p>
-      </div>
+            {isSubmitting ? "Creating..." : "Create Account"}
+          </button>
+        </form>
 
+        {/* Login Link */}
+        <div className="text-center mt-6">
+          <p className="text-gray-400">
+            Already have an account?{" "}
+            <Link to="/login" className="text-orange-500 hover:underline">
+              Login
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Register;

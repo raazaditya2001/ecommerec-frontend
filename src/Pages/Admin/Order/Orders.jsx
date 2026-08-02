@@ -30,6 +30,7 @@ const Orders = () => {
     } catch (error) {
       notify.error("Something went wrong");
       console.log(error.message);
+      navigate("/500");
     }
   };
 

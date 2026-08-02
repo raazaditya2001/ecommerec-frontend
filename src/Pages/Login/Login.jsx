@@ -42,14 +42,11 @@ export default function Login() {
         navigate(from , { replace: true});
       }
     } catch (error) {
-      if (error.response) {
-        notify.error(error.response.data.message);
-      } else {
         notify.error("Something went wrong");
       }
 
       console.log(error);
-    }
+    
   };
 
   return (

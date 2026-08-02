@@ -22,6 +22,8 @@ import AllUsers from "./Pages/Admin/Users/AllUsers";
 import UserProtectedRoutes from "./routes/UserProtectedRoutes";
 import AdminProtectedRoutes from "./routes/AdminProtectedRoutes";
 import ToastProvider from "./Components/Toast/ToastProvider";
+import NotFound from "./Pages/errors/NotFound";
+import ServerError from "./Pages/errors/ServerError";
 
 function App() {
   return (
@@ -39,6 +41,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/product/:id" element={<ProductDetals />} />
           <Route path="/cart" element={<Cart />} />
+
+          //Error Pages
+          <Route path="*" element={<NotFound />} />
+          <Route path="/500" element={<ServerError />} />
 
           {/* User Routes */}
           <Route element={<UserProtectedRoutes />}>

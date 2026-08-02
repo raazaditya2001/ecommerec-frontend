@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -16,6 +17,8 @@ const Home = () => {
       setProducts(data.products?.slice(0) || []);
     } catch (error) {
       console.log(error);
+      navigate("/500")
+      
     } finally {
       setLoading(false);
     }

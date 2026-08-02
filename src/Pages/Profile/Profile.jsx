@@ -25,8 +25,9 @@ const Profile = () => {
         console.log(res.data);
       }
     } catch (error) {
-      notify.error("Something wrong");
+      notify.error("Something went wrong");
       console.log(error);
+      navigate("/500");
     } finally {
       setLoading(false);
     }

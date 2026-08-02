@@ -7,6 +7,7 @@ import notify from "../../../utils/toast";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -19,6 +20,7 @@ const AllProducts = () => {
     } catch (error) {
       notify.error("Something Went Wrong");
       console.log(error.message);
+      navigate("/500");
     }
   };
 

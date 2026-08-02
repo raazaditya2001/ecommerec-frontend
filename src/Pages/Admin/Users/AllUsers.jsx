@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import notify from "../../../utils/toast";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   console.log(user);
 
@@ -31,6 +32,7 @@ const AllUsers = () => {
     } catch (error) {
       console.error(error);
       notify.error("Failed to fetch users");
+      navigate("/500");
     }
   };
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice"; // Update the path
 import notify from "../../utils/toast";
 
@@ -9,6 +9,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ const ProductDetails = () => {
     } catch (error) {
       console.error(error);
       notify.error("Something Went Wrong");
+      navigate("/500");
     } finally {
       setLoading(false);
     }
@@ -31,7 +33,7 @@ const ProductDetails = () => {
   }, [id]);
 
   const handleAddCart = () => {
-    if(!product) return
+    if (!product) return;
 
     const exists = cartItems.some((item) => item.productId === product._id);
     if (exists) {

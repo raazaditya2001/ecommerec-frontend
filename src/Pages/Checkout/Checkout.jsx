@@ -251,7 +251,7 @@ const Checkout = () => {
                 <label className="block mb-2 text-gray-300">Postal Code</label>
 
                 <input
-                  type="text"
+                  type="number"
                   value={address.postalCode}
                   required
                   onChange={(e) =>

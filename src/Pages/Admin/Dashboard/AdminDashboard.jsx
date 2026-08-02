@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import notify from "../../../utils/toast";
 
 const AdminDashboard = () => {
   const [dashboardStats, setDashboardStats] = useState([]);
   const [orderStats, setOrderStats] = useState([]);
+  const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
@@ -29,6 +30,7 @@ const AdminDashboard = () => {
     } catch (error) {
       notify.error("Something went wrong!");
       console.log(error.message);
+      navigate("/500");
     }
   };
 
