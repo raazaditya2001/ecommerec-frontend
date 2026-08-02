@@ -34,7 +34,7 @@ const Register = () => {
       const res = await axios.post("/api/auth/register", data);
 
       if (res.status === 201) {
-        notify.success("Form Submitted Successfully");
+        notify.success("Registration Successfully Done!");
 
         reset();
 
