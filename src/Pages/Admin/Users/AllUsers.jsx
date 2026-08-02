@@ -11,13 +11,7 @@ const AllUsers = () => {
 
   console.log(user);
 
-  useEffect(() => {
-    if (user && user.role === "admin") {
-      fetchUsers();
-    }
-  }, []);
-
-  const fetchUsers = async () => {
+   const fetchUsers = async () => {
     try {
       const res = await axios.get("/api/auth/users", {
         headers: {
@@ -35,6 +29,14 @@ const AllUsers = () => {
       navigate("/500");
     }
   };
+
+  useEffect(() => {
+    if (user && user.role === "admin") {
+      fetchUsers();
+    }
+  }, []);
+
+ 
 
   return (
     <div className="min-h-screen bg-zinc-950 p-6">

@@ -58,7 +58,7 @@ const EditProduct = () => {
     fetchProduct();
   }, [id]);
 
-  const handleImg = (e) => {
+  const handleImg = () => {
     const image = e.target.files[0];
 
     if (image) {

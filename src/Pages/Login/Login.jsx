@@ -43,9 +43,10 @@ export default function Login() {
       }
     } catch (error) {
         notify.error("Something went wrong");
+        console.log(error);
       }
 
-      console.log(error);
+      
     
   };
 
