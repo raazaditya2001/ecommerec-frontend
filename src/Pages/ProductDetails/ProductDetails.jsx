@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addToCart } from "../../redux/slices/cartSlice"; // Update the path
+import { addToCart } from "../../Redux/slices/cartSlice"; // Update the path
 import notify from "../../utils/toast";
 
 const ProductDetails = () => {

@@ -3,7 +3,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { clearCart } from "../../redux/slices/cartSlice";
+import { clearCart } from "../../Redux/slices/cartSlice";
 import notify from "../../utils/toast";
 
 const Checkout = () => {

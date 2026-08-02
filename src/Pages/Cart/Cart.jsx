@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  removeFromCart,
-  updateCart,
-  clearCart,
-} from "../../redux/slices/cartSlice";
+
 import { AuthContext } from "../../Context/AuthContext";
+import { clearCart, removeFromCart, updateCart } from "../../Redux/slices/cartSlice";
 
 const Cart = () => {
   const {user} = useContext(AuthContext);
