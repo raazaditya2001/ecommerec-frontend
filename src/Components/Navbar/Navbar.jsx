@@ -51,12 +51,6 @@ const Navbar = () => {
       </li>
 
       <li>
-        <Link to="/shop" className="hover:text-orange-500">
-          Shop
-        </Link>
-      </li>
-
-      <li>
         <Link to="/cart" className="hover:text-orange-500">
           Cart ({cartItems.length})
         </Link>

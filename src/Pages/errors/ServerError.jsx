@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ServerError = () => {
+    const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="max-w-xl w-full text-center">
@@ -24,12 +25,12 @@ const ServerError = () => {
         {/* Actions */}
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
 
-          <button
-            onClick={() => window.location.reload()}
+          <Link
+            onClick={() => navigate(-1)}
             className="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-medium transition"
           >
             Try Again
-          </button>
+          </Link>
 
           <Link
             to="/"
