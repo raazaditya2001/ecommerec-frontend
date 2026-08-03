@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import notify from "../../../utils/toast";
+import api from "../../../Components/api";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -13,7 +13,7 @@ const AllUsers = () => {
 
    const fetchUsers = async () => {
     try {
-      const res = await axios.get("/api/auth/users", {
+      const res = await api.get("/api/auth/users", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

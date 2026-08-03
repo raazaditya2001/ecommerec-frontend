@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,6 +7,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import api from "../../Components/api";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -23,7 +23,7 @@ const Home = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/product`);
+      const { data } = await api.get(`/api/product`);
       console.log(data);
 
       setProducts(data.products?.slice(0) || []);

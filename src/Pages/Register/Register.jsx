@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
 import notify from "../../utils/toast";
 // validation imports
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "../../validations/auth.schema";
+import api from "../../Components/api";
 
 const Register = () => {
   const { login } = useContext(AuthContext);
@@ -31,7 +31,7 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("/api/auth/register", data);
+      const res = await api.post("/api/auth/register", data);
 
       if (res.status === 201) {
         notify.success("Registration Successfully Done!");

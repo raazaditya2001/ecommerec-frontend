@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { clearCart } from "../../Redux/slices/cartSlice";
 import notify from "../../utils/toast";
+import api from "../../Components/api";
 
 const Checkout = () => {
   const { user } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     try {
-      const OrderRes = await axios.post(
+      const OrderRes = await api.post(
         "/api/payment",
         {
           amount: totalPrice,
@@ -64,7 +64,7 @@ const Checkout = () => {
         description: "Test Transaction",
         order_id: orderData.id,
         handler: async (response) => {
-          const verifyRes = await axios.post(
+          const verifyRes = await api.post(
             "/api/payment/verify",
             {
               razorpay_order_id: response.razorpay_order_id,
@@ -83,7 +83,7 @@ const Checkout = () => {
           if (verifyRes.data.success) {
             try {
               notify.success("Payment Successfully Done!")
-              const saveOrderRes = await axios.post(
+              const saveOrderRes = await api.post(
                 "/api/orders",
                 {
                   items: cartItems.map((item) => ({
@@ -138,7 +138,7 @@ const Checkout = () => {
   };
 
   const bypassPayment = async () => {
-    const saveOrderRes = await axios.post(
+    const saveOrderRes = await api.post(
       "/api/orders",
       {
         items: cartItems,

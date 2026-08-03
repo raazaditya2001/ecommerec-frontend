@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import notify from "../../../utils/toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema } from "../../../validations/product.schema";
+import api from "../../../Components/api";
 
 const EditProduct = () => {
   const { user } = useContext(AuthContext);
@@ -33,7 +34,7 @@ const EditProduct = () => {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(`/api/product/${id}`);
+      const res = await api.get(`/api/product/${id}`);
 
       if (res.data.success) {
         console.log(res.data.product);
@@ -81,7 +82,7 @@ const EditProduct = () => {
     }
 
     try {
-      const res = await axios.put(
+      const res = await api.put(
         `/api/product/${id}`,
         formData,
 

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
-import axios from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 import notify from "../../../utils/toast";
+import api from "../../../Components/api";
 
 const AdminDashboard = () => {
   const [dashboardStats, setDashboardStats] = useState([]);
@@ -17,7 +18,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const res = await axios.get(`/api/analytics`, {
+      const res = await api.get(`/api/analytics`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

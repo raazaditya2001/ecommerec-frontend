@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import notify from "../../utils/toast";
+import api from "../../Components/api";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const Profile = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`api/orders/myorders`, {
+      const res = await api.get(`api/orders/myorders`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

@@ -1,8 +1,9 @@
-import axios from "axios";
+
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthContext";
 import notify from "../../../utils/toast";
+import api from "../../../Components/api";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ const AllProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`/api/product`);
+      const res = await api.get(`/api/product`);
 
       if (res.data.success) {
         setProducts(res.data.products);

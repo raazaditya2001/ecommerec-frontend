@@ -1,9 +1,10 @@
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../Redux/slices/cartSlice"; // Update the path
 import notify from "../../utils/toast";
+import api from "../../Components/api";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const ProductDetails = () => {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(`/api/product/${id}`);
+      const res = await api.get(`/api/product/${id}`);
       setProduct(res.data.product);
       console.log(res.data.product);
     } catch (error) {

@@ -1,8 +1,9 @@
-import axios from "axios";
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { Link, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import notify from "../../utils/toast";
+import api from "../../Components/api";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -28,7 +29,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/auth/login", {
+      const res = await api.post("/api/auth/login", {
         email: form.email,
         password: form.password,
       });

@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import notify from "../../../utils/toast";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {productSchema} from "../../../validations/product.schema"
+import api from "../../../Components/api";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -58,7 +59,7 @@ const AddProduct = () => {
     }
 
     try {
-      const res = await axios.post(
+      const res = await api.post(
         `/api/product`,
         formData,
 

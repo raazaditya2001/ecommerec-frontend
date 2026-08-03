@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
-import axios from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 import notify from "../../../utils/toast";
+import api from "../../../Components/api";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,7 @@ const Orders = () => {
       return;
     }
     try {
-      const res = await axios.get(`/api/orders`, {
+      const res = await api.get(`/api/orders`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -44,7 +45,7 @@ const Orders = () => {
   const handleUpdateStatus = async (id) => {
     console.log("update handler");
     try {
-      const res = await axios.put(
+      const res = await api.put(
         `/api/orders/${id}/status`,
         {
           status,
