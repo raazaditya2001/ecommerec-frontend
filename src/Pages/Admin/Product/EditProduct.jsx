@@ -58,7 +58,7 @@ const EditProduct = () => {
     fetchProduct();
   }, [id]);
 
-  const handleImg = () => {
+  const handleImg = (e) => {
     const image = e.target.files[0];
 
     if (image) {
@@ -67,8 +67,7 @@ const EditProduct = () => {
   };
 
   const onSubmit = async (data) => {
-    e.preventDefault();
-
+   
     const formData = new FormData();
 
     formData.append("name", data.name);
@@ -213,7 +212,7 @@ const EditProduct = () => {
             <input
               type="file"
               accept="image/*"
-              onChange={handleImg}
+              onChange={() => handleImg(e)}
               className="w-full text-gray-300 file:bg-orange-500 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-lg file:cursor-pointer cursor-pointer"
             />
           </div>

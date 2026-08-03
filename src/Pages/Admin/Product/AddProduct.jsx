@@ -21,9 +21,9 @@ const AddProduct = () => {
     defaultValues : {
       name : "",
       description: "",
-      price : "",
+      price : 0,
       category : "",
-      stock: "",
+      stock: 0,
     }
   });
   
@@ -76,6 +76,8 @@ const AddProduct = () => {
       }
     } catch (error) {
       notify.error("Something went wrong");
+       console.log(error.response);
+  console.log(error.response?.data);
       console.log(error.message);
     }
   };

@@ -154,13 +154,7 @@ const Navbar = () => {
         Home
       </Link>
 
-      <Link
-        to="/shop"
-        onClick={() => setMenuOpen(false)}
-        className="px-6 py-4 hover:bg-zinc-800"
-      >
-        Shop
-      </Link>
+
 
       <Link
         to="/cart"
@@ -182,7 +176,7 @@ const Navbar = () => {
 
           {user.role === "admin" && (
             <Link
-              to="/admin"
+              to="/admin/dashboard"
               onClick={() => setMenuOpen(false)}
               className="px-6 py-4 hover:bg-zinc-800"
             >
