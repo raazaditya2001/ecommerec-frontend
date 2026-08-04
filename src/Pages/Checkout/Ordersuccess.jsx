@@ -26,7 +26,7 @@ const Ordersuccess = () => {
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
 
           <Link
-            to="/orders"
+            to="/profile"
             className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
           >
             View My Orders
