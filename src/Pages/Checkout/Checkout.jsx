@@ -11,6 +11,7 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [address, setAddress] = useState({
     fullName: "",
@@ -55,6 +56,8 @@ const Checkout = () => {
         }
       }
 
+      setLoading(true);
+
       const orderData = OrderRes.data.order;
 
       const options = {
@@ -64,6 +67,9 @@ const Checkout = () => {
         description: "Test Transaction",
         order_id: orderData.id,
         handler: async (response) => {
+
+          setLoading(true);
+
           const verifyRes = await api.post(
             "/api/payment/verify",
             {
@@ -82,7 +88,7 @@ const Checkout = () => {
 
           if (verifyRes.data.success) {
             try {
-              notify.success("Payment Successfully Done!")
+              notify.success("Payment Successfully Done!");
               const saveOrderRes = await api.post(
                 "/api/orders",
                 {
@@ -135,6 +141,9 @@ const Checkout = () => {
     } catch (error) {
       console.log(error);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   const bypassPayment = async () => {
@@ -159,7 +168,8 @@ const Checkout = () => {
       notify.success("Order Placed Successfully");
       navigate("/ordersuccess");
     }
-  };
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user) {
@@ -171,145 +181,181 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white py-10 px-4">
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
-        {/* Shipping Form */}
-        <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold mb-8">Checkout</h2>
-
-          <form onSubmit={handleSubmit} id="checkoutform" className="space-y-5">
-            <div>
-              <label className="block mb-2 text-gray-300">Full Name</label>
-
-              <input
-                type="text"
-                value={address.fullName}
-                required
-                onChange={(e) =>
-                  setAddress({
-                    ...address,
-                    fullName: e.target.value,
-                  })
-                }
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
+    <>
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white px-10 py-8 rounded-2xl shadow-xl text-center">
+            <div className="flex justify-center gap-2 mb-5">
+              <span className="w-3 h-3 rounded-full bg-blue-600 animate-bounce"></span>
+              <span
+                className="w-3 h-3 rounded-full bg-blue-600 animate-bounce"
+                style={{ animationDelay: "0.15s" }}
+              ></span>
+              <span
+                className="w-3 h-3 rounded-full bg-blue-600 animate-bounce"
+                style={{ animationDelay: "0.3s" }}
+              ></span>
             </div>
 
-            <div>
-              <label className="block mb-2 text-gray-300">Street Address</label>
+            <h2 className="text-xl font-semibold text-gray-800">
+              Processing Payment...
+            </h2>
 
-              <input
-                type="text"
-                value={address.street}
-                required
-                onChange={(e) =>
-                  setAddress({
-                    ...address,
-                    street: e.target.value,
-                  })
-                }
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-4">
-              <div>
-                <label className="block mb-2 text-gray-300">City</label>
-
-                <input
-                  type="text"
-                  value={address.city}
-                  required
-                  onChange={(e) =>
-                    setAddress({
-                      ...address,
-                      city: e.target.value,
-                    })
-                  }
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
-                />
-              </div>
-
-              <div>
-                <label className="block mb-2 text-gray-300"> State </label>
-
-                <input
-                  type="text"
-                  value={address.state}
-                  required
-                  onChange={(e) =>
-                    setAddress({
-                      ...address,
-                      state: e.target.value,
-                    })
-                  }
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
-                />
-              </div>
-
-              <div>
-                <label className="block mb-2 text-gray-300">Postal Code</label>
-
-                <input
-                  type="number"
-                  value={address.postalCode}
-                  required
-                  onChange={(e) =>
-                    setAddress({
-                      ...address,
-                      postalCode: e.target.value,
-                    })
-                  }
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
-                />
-              </div>
-
-              <div>
-                <label className="block mb-2 text-gray-300">Country</label>
-
-                <input
-                  type="text"
-                  value={address.country}
-                  required
-                  onChange={(e) =>
-                    setAddress({
-                      ...address,
-                      country: e.target.value,
-                    })
-                  }
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
-                />
-              </div>
-            </div>
-          </form>
+            <p className="mt-2 text-gray-500">
+              Please wait while we confirm your payment.
+            </p>
+          </div>
         </div>
+      )}
 
-        {/* Order Summary */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 h-fit">
-          <h3 className="text-2xl font-bold mb-6">Order Summary</h3>
+      <div className="min-h-screen bg-zinc-950 text-white py-10 px-4">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
+          {/* Shipping Form */}
+          <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+            <h2 className="text-3xl font-bold mb-8">Checkout</h2>
 
-          <div className="flex justify-between mb-4">
-            <span>Total Items</span>
-            <span>{cartItems.length}</span>
+            <form
+              onSubmit={handleSubmit}
+              id="checkoutform"
+              className="space-y-5"
+            >
+              <div>
+                <label className="block mb-2 text-gray-300">Full Name</label>
+
+                <input
+                  type="text"
+                  value={address.fullName}
+                  required
+                  onChange={(e) =>
+                    setAddress({
+                      ...address,
+                      fullName: e.target.value,
+                    })
+                  }
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-gray-300">
+                  Street Address
+                </label>
+
+                <input
+                  type="text"
+                  value={address.street}
+                  required
+                  onChange={(e) =>
+                    setAddress({
+                      ...address,
+                      street: e.target.value,
+                    })
+                  }
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block mb-2 text-gray-300">City</label>
+
+                  <input
+                    type="text"
+                    value={address.city}
+                    required
+                    onChange={(e) =>
+                      setAddress({
+                        ...address,
+                        city: e.target.value,
+                      })
+                    }
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-gray-300"> State </label>
+
+                  <input
+                    type="text"
+                    value={address.state}
+                    required
+                    onChange={(e) =>
+                      setAddress({
+                        ...address,
+                        state: e.target.value,
+                      })
+                    }
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-gray-300">
+                    Postal Code
+                  </label>
+
+                  <input
+                    type="number"
+                    value={address.postalCode}
+                    required
+                    onChange={(e) =>
+                      setAddress({
+                        ...address,
+                        postalCode: e.target.value,
+                      })
+                    }
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-gray-300">Country</label>
+
+                  <input
+                    type="text"
+                    value={address.country}
+                    required
+                    onChange={(e) =>
+                      setAddress({
+                        ...address,
+                        country: e.target.value,
+                      })
+                    }
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3"
+                  />
+                </div>
+              </div>
+            </form>
           </div>
 
-          <div className="flex justify-between text-2xl font-bold mb-6">
-            <span>Total</span>
-            <span className="text-orange-500">
-              ₹{totalPrice.toLocaleString("en-IN")}
-            </span>
-          </div>
+          {/* Order Summary */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 h-fit">
+            <h3 className="text-2xl font-bold mb-6">Order Summary</h3>
 
-          <button
-            type="submit"
-            form="checkoutform"
-            className="w-full bg-orange-500 hover:bg-orange-600 py-3 rounded-xl font-semibold transition"
-          >
-            Pay Now
-          </button>
+            <div className="flex justify-between mb-4">
+              <span>Total Items</span>
+              <span>{cartItems.length}</span>
+            </div>
+
+            <div className="flex justify-between text-2xl font-bold mb-6">
+              <span>Total</span>
+              <span className="text-orange-500">
+                ₹{totalPrice.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              form="checkoutform"
+              className="w-full bg-orange-500 hover:bg-orange-600 py-3 rounded-xl font-semibold transition"
+            >
+              Pay Now
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
